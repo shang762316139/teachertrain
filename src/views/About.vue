@@ -5,7 +5,7 @@
 * @date 2022/11/25 13:25:28
 !-->
 <template>
-  <div>sdf</div>
+  <div>about</div>
 </template>
 
 <script>
