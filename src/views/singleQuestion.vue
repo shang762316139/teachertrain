@@ -46,16 +46,16 @@
             <div class="choiceItem-one">
               {{ String.fromCharCode(65 + index) }}
             </div>
-            <div class="choiceItem-two">
+            <!-- <div class="choiceItem-two">
               {{ String.fromCharCode(65 + index) }}
-            </div>
-            <!-- <el-input
+            </div> -->
+            <el-input
               class="choiceItem-two"
-              @change="choiceChange2"
+              @change="choiceChange2(index)"
               v-model="item.type"
             >
               {{ String.fromCharCode(65 + index) }}
-            </el-input> -->
+            </el-input>
             <el-input
               class="choiceItem-three"
               v-model="item.content"
@@ -270,7 +270,12 @@ export default {
       //   "this.saveQuestionForm.choice111"
       // );
     },
-    choiceChange2() {},
+    choiceChange2(index) {
+      console.log(
+        String.fromCharCode(65 + index),
+        "String.fromCharCode(65 + index)"
+      );
+    },
     delChoice(i) {
       this.$confirm("确认是否删除", "提示", {
         confirmButtonText: "确定",
@@ -453,7 +458,7 @@ export default {
             height: 38px;
             line-height: 38px;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            // border: 1px solid #ddd;
             background: #fff;
             margin: 0 15px 0 20px;
             ::v-deep .el-input__inner {

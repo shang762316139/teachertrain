@@ -98,7 +98,112 @@
               添加试题
             </el-button>
             <el-button type="text"> 添加课程 </el-button>
-            <el-button type="text"> 设置证书 </el-button>
+            <el-button type="text" @click="setCredential(scope.row)">
+              设置证书
+            </el-button>
+
+            <!-- 设置证书弹框 -->
+            <el-dialog
+              title="设置证书"
+              :visible.sync="credentialShow"
+              @close="dialogClose"
+            >
+              <el-form :model="dialogForm">
+                <el-form-item label="是否发放证书:" required>
+                  <el-radio-group v-model="dialogForm.radio" @change="provide">
+                    <el-radio
+                      :label="item.type"
+                      v-for="item in dialogForm.radioList"
+                      :key="item.type"
+                      >{{ item.title }}</el-radio
+                    >
+                  </el-radio-group>
+                </el-form-item>
+                <div v-show="dialogForm.radio == '1'">
+                  <el-form-item label="选择证书类型:" required>
+                    <el-radio-group
+                      v-model="dialogForm.typeRadio"
+                      @change="selectionType"
+                    >
+                      <el-radio
+                        :label="item.type"
+                        v-for="item in dialogForm.typeRadioList"
+                        :key="item.type"
+                        >{{ item.title }}</el-radio
+                      >
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item
+                    label="证书发放时间:"
+                    :required="dialogForm.typeRadio == '1'"
+                  >
+                    <el-date-picker
+                      v-model="dialogForm.provideStartTime"
+                      type="date"
+                      placeholder="开始时间"
+                      value-format="yyyy-MM-dd"
+                      prefix-icon=""
+                      @change="startTime"
+                    >
+                    </el-date-picker>
+                    <el-date-picker
+                      v-model="dialogForm.provideEndTime"
+                      type="date"
+                      placeholder="结束时间"
+                      value-format="yyyy-MM-dd"
+                      @change="EndTime"
+                    >
+                    </el-date-picker>
+                  </el-form-item>
+                  <div v-show="dialogForm.typeRadio == '1'">
+                    <el-form-item
+                      label="证书编号:"
+                      required
+                      class="serialNumber"
+                    >
+                      <el-input
+                        v-model="dialogForm.serialNumber"
+                        @change="serialChange"
+                      ></el-input>
+                      <div>
+                        说明:统一默认证书编号前缀 , 后边由用户账号后六位组成;
+                      </div>
+                    </el-form-item>
+                    <el-form-item
+                      label="设置证书内容:"
+                      class="content"
+                      required
+                    >
+                      <!-- <el-input v-model="dialogForm.desc" type="textarea"></el-input> -->
+                      <div class="contentBox">
+                        <div class="contentBoxTop">
+                          <input v-model="dialogForm.credentialContent.title" />
+                          <span>老师:</span>
+                        </div>
+                        <div class="contentBoxBottom">
+                          和酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷
+                          <!-- <textarea
+                      type="text"
+                      v-model="dialogForm.credentialContent.content"
+                    ></textarea> -->
+                          <el-input
+                            type="textarea"
+                            v-model="dialogForm.credentialContent.content"
+                          ></el-input>
+                        </div>
+                      </div>
+                    </el-form-item>
+                  </div>
+                </div>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelClick(scope.row)">取 消</el-button>
+                <el-button type="primary" @click="finishClick(scope.row)"
+                  >完成</el-button
+                >
+              </div>
+            </el-dialog>
+
             <el-button
               type="text"
               :style="{
@@ -160,6 +265,42 @@ export default {
       tableColumn: [],
       // 点击查看数据得到某一行数据
       everyData: {},
+      // 设置证书弹框是否显示
+      credentialShow: false,
+      dialogForm: {
+        radio: "2",
+        radioList: [
+          {
+            type: "1",
+            title: "是",
+          },
+          {
+            type: "2",
+            title: "否",
+          },
+        ],
+        typeRadio: "",
+        typeRadioList: [
+          {
+            type: "1",
+            title: "电子证书",
+          },
+          {
+            type: "2",
+            title: "纸质证书",
+          },
+        ],
+        provideStartTime: "",
+        provideEndTime: "",
+        serialNumber: "",
+        desc: "",
+        credentialContent: {
+          title: "",
+          content: "",
+        },
+      },
+      //要存起来的
+      existDialogForm: {},
     };
   },
 
@@ -291,14 +432,15 @@ export default {
     addTest(v) {
       console.log(v.getAddTest, "v----vvv1111");
       console.log(v, "v----vvv2222222");
-      if (v.getAddTest) {
+      if (v.getAddTest.addStestData) {
         setTimeout(() => {
-          Bus.$emit("addTest", v.getAddTest);
-          console.log(v.getAddTest, "11");
+          Bus.$emit("addTest", v.getAddTest.addStestData);
+          console.log(v.getAddTest.addStestData, "11");
         }, 100);
       }
       this.$router.push({ name: "addTest", query: { id: v.key } });
     },
+
     revampActivities(v) {
       setTimeout(() => {
         Bus.$emit("Activities", v);
@@ -325,6 +467,48 @@ export default {
     delRowBtn(v) {
       this.tableData = this.tableData.filter((item) => item.key != v);
       localStorage.setItem("totalData", JSON.stringify(this.tableData));
+    },
+    dialogClose() {
+      console.log("dialogClose");
+    },
+    setCredential(v) {
+      console.log(v, "ccc1");
+      this.credentialShow = true;
+      console.log(this.dialogForm.radio, "v//v");
+      this.existDialogForm.radio = this.dialogForm.radio;
+      console.log(this.existDialogForm.radio, "mm-pp11");
+      this.existDialogForm.type = v.key;
+    },
+    provide(v) {
+      this.existDialogForm.radio = v;
+      console.log(this.existDialogForm.radio, "mm-pp");
+    },
+    selectionType(v) {
+      this.existDialogForm.typeRadio = v;
+    },
+    startTime(v) {
+      console.log(v, "v---v");
+      this.existDialogForm.provideStartTime = v;
+    },
+    EndTime(v) {
+      this.existDialogForm.provideEndTime = v;
+    },
+    serialChange(v) {
+      this.existDialogForm.serialNumber = v;
+    },
+    finishClick() {
+      // console.log(v, "ccc");
+      const gettotalData = JSON.parse(localStorage.getItem("totalData"));
+      const filterArr = gettotalData.filter(
+        (item) => item.key == this.existDialogForm.type
+      );
+      filterArr[0].DialogForm = this.existDialogForm;
+      localStorage.setItem("totalData", JSON.stringify(gettotalData));
+      this.credentialShow = false;
+    },
+    cancelClick(v) {
+      console.log(v, "ccc3");
+      this.credentialShow = false;
     },
   },
 };
@@ -387,6 +571,113 @@ export default {
           margin-right: 8px;
           color: blue;
         }
+      }
+    }
+    ::v-deep .el-dialog {
+      width: 70%;
+      .el-dialog__header {
+        background: #eee;
+
+        .el-dialog__title {
+          font-weight: 700;
+        }
+        .el-dialog__headerbtn {
+          font-size: 30px;
+          font-weight: 700;
+          .el-dialog__close {
+            color: #000;
+          }
+        }
+      }
+      .el-dialog__body {
+        background: #eee;
+
+        .el-form {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          .el-form-item {
+            display: flex;
+            .el-date-editor {
+              width: 170px;
+              .el-input__inner {
+                width: 140px;
+                height: 30px;
+                // border: 1px solid #333;
+                color: #333;
+              }
+            }
+          }
+          .serialNumber {
+            .el-form-item__content {
+              display: flex;
+              .el-input {
+                width: 250px;
+                margin-right: 16px;
+              }
+            }
+          }
+          .content {
+            // .el-form-item__content {
+            //   .el-textarea {
+            //     width: 700px;
+            //     .el-textarea__inner {
+            //       padding: 10px 40px;
+            //     }
+            //   }
+            // }
+            .contentBox {
+              border: 1px solid red;
+              height: 400px;
+              width: 800px;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              padding: 10px 30px;
+              overflow-y: scroll;
+              .contentBoxTop {
+                font-weight: 700;
+                margin-bottom: 20px;
+                input {
+                  border: 0;
+                  border-bottom: 1px solid red;
+                  background: #eee;
+                  text-align: center;
+                  width: 50px;
+                  height: 16px;
+                  outline: none;
+                }
+              }
+              .contentBoxBottom {
+                border: 1px solid forestgreen;
+                width: 100%;
+                min-height: 30px;
+                input {
+                  display: block;
+                  border: 0;
+                  width: 700px;
+                  min-height: 30px;
+                  // height: 100%;
+                  background: #eee;
+                  // text-align: center;
+                  outline: none;
+                  // word-wrap: normal;
+                  white-space: pre-wrap;
+                }
+              }
+            }
+          }
+        }
+      }
+      .el-dialog__footer {
+        display: flex;
+        justify-content: center;
+        background: #eee;
+
+        //   .el-button {
+        //     width: 130px;
+        //     margin-right: 20px;
+        //   }
       }
     }
   }

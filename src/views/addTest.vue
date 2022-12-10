@@ -306,7 +306,7 @@ export default {
       //一些操作，message就是从组件传过来的值
       // console.log("导航栏传的值",message);
       console.log(val, "message");
-      this.addtableData = val.addStestData;
+      this.addtableData = val;
       if (this.addtableData.length > 0) {
         console.log(this.addtableData, "this.addtableData.length");
         this.addtableColumn = this.tableColumn;
@@ -455,11 +455,12 @@ export default {
     },
     // 展开项
     clickRowHandle(row) {
-      if (this.expands.includes(row.id)) {
-        this.expands = this.expands.filter((val) => val !== row.id);
-      } else {
-        this.expands.push(row.id);
-      }
+      console.log(row);
+      // if (this.expands.includes(row.id)) {
+      //   this.expands = this.expands.filter((val) => val !== row.id);
+      // } else {
+      //   this.expands.push(row.id);
+      // }
     },
     addDialog() {
       // 初始化请求数据
