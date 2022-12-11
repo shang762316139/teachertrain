@@ -62,10 +62,10 @@
         :data="tableData"
         :header-cell-style="{
           color: '#000000',
-          border: '1px solid #333',
+          // border: '1px solid #333',
           fontWeight: '400',
-          borderRight: 'none',
-          borderTop: 'none',
+          // borderRight: 'none',
+          // borderTop: 'none',
           textAlign: 'center',
           lineHeight: '0',
         }"
@@ -422,9 +422,9 @@ export default {
       console.log(row, "row");
       // console.log(column, "column");
       let style = {
-        border: "1px solid #333",
-        borderRight: "none",
-        borderTop: "none",
+        // border: "1px solid #333",
+        // borderRight: "none",
+        // borderTop: "none",
         textAlign: "center",
         background: "#fff",
       };
@@ -436,23 +436,23 @@ export default {
         return {
           color: "green",
           textAlign: "center",
-          borderLeft: "1px solid #333",
-          borderBottom: "1px solid #333",
+          // borderLeft: "1px solid #333",
+          // borderBottom: "1px solid #333",
         };
       } else if (row.certificate == "未获得证书" && columnIndex === 12) {
         return {
           color: "red",
           textAlign: "center",
-          borderLeft: "1px solid #333",
-          borderBottom: "1px solid #333",
+          // borderLeft: "1px solid #333",
+          // borderBottom: "1px solid #333",
         };
       }
       if (columnIndex === 8 || columnIndex === 10 || columnIndex === 15) {
         return {
           color: "blue",
           textAlign: "center",
-          borderLeft: "1px solid #333",
-          borderBottom: "1px solid #333",
+          // borderLeft: "1px solid #333",
+          // borderBottom: "1px solid #333",
         };
       }
 
@@ -467,28 +467,30 @@ export default {
 <style lang='scss' scoped>
 .viewData {
   .viewData-top {
-    border: 1px solid rgb(69, 69, 69);
+    // border: 1px solid rgb(69, 69, 69);
     display: flex;
     position: relative;
     background: #fff;
+    padding-top: 15px;
+    height: 60px;
     .viewData-top-l {
       width: 91px;
       height: 55px;
-      border: 1px solid red;
-      padding-top: 29px;
+      // border: 1px solid red;
+      padding-top: 15px;
       box-sizing: border-box;
       font-size: 20px;
       font-weight: 600;
     }
     .viewData-top-m {
-      margin: 0 30px;
+      margin: 0 20px;
       .el-form {
         display: flex;
         width: 100%;
-        border: 1px solid red;
+        // border: 1px solid red;
         height: 43px;
-        margin-bottom: 40px;
-
+        margin-bottom: 30px;
+        // padding-top: 10px;
         .chaxun {
           height: 38px;
         }
@@ -497,7 +499,7 @@ export default {
         }
         .el-form-item {
           display: flex;
-          border: 1px solid blue;
+          // border: 1px solid blue;
           min-width: 180px;
           height: 43px;
           // ::v-deep .el-input__inner {
@@ -511,7 +513,7 @@ export default {
           }
           ::v-deep .el-form-item__content {
             // min-width: 10%;
-            border: 1px solid red;
+            // border: 1px solid red;
           }
           ::v-deep .el-range-editor.el-input__inner {
             min-width: 180px;
@@ -524,9 +526,9 @@ export default {
     }
     .viewData-top-r {
       position: absolute;
-      top: 0;
+      top: 15px;
       right: 0;
-      border: 1px solid forestgreen;
+      // border: 1px solid forestgreen;
       ::v-deep .el-button--primary {
         background-color: rgb(21, 162, 237);
       }
@@ -556,8 +558,8 @@ export default {
 
     padding: 20px;
     .elTable {
-      border: 1px solid #333;
-      border-left: 0;
+      // border: 1px solid #333;
+      // border-left: 0;
       .el-table__cell {
         .cell {
           button {

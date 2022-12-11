@@ -524,7 +524,7 @@ export default {
     .el-form {
       display: flex;
       width: 100%;
-      border: 1px solid red;
+      // border: 1px solid red;
       height: 43px;
       margin-bottom: 40px;
       position: relative;
@@ -540,17 +540,17 @@ export default {
       }
       .el-form-item {
         display: flex;
-        border: 1px solid blue;
+        // border: 1px solid blue;
         min-width: 250px;
         height: 43px;
         ::v-deep .el-form-item__label {
           min-width: 32px;
-          border: 1px solid red;
+          // border: 1px solid red;
           white-space: nowrap;
         }
         ::v-deep .el-form-item__content {
           // min-width: 10%;
-          border: 1px solid red;
+          // border: 1px solid red;
         }
         ::v-deep .el-range-editor.el-input__inner {
           min-width: 180px;
@@ -572,6 +572,9 @@ export default {
           color: blue;
         }
       }
+    }
+    ::v-deep .el-table_1_column_5 {
+      cursor: pointer;
     }
     ::v-deep .el-dialog {
       width: 70%;
@@ -617,6 +620,7 @@ export default {
               }
             }
           }
+
           .content {
             // .el-form-item__content {
             //   .el-textarea {
