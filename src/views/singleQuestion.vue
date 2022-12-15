@@ -253,6 +253,7 @@ export default {
     typesChange(v) {
       //{__ob__: Observer} 'vv////vv'
       this.saveQuestionForm.questionTypes = v.patternItem;
+      this.saveQuestionForm.questionCode = v.type;
       if (v.type == "2") {
         this.questionForm.isRadioShow = false;
         this.questionForm.isCheckboxShow = true;
