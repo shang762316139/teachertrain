@@ -136,7 +136,7 @@ export default {
         activeData: "查看数据",
         states: "已下线",
         operation: {
-          type: 1,
+          type: "1",
           state: "上线",
         }, //操作
       },

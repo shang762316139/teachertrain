@@ -592,7 +592,8 @@ export default {
         );
         // 给该活动添加一个getAddTest属性
         this.setItemData.addStestData = this.addtableData;
-
+        //添加一个总分属性
+        this.setItemData.totalScore = this.totalScore;
         filterArr[0].getAddTest = this.setItemData;
         console.log(filterArr, "aa-aa");
         localStorage.setItem("totalData", JSON.stringify(gettableData));

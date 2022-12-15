@@ -430,15 +430,17 @@ export default {
     //   this.$router.push({ name: "creatActivities" });
     // },
     addTest(v) {
-      console.log(v.getAddTest, "v----vvv1111");
+      // console.log(v.getAddTest, "v----vvv1111");
       console.log(v, "v----vvv2222222");
-      if (v.getAddTest.addStestData) {
+      if (v.getAddTest) {
         setTimeout(() => {
           Bus.$emit("addTest", v.getAddTest.addStestData);
           console.log(v.getAddTest.addStestData, "11");
         }, 100);
+        this.$router.push({ name: "addTest", query: { id: v.key } });
+      } else {
+        this.$router.push({ name: "addTest", query: { id: v.key } });
       }
-      this.$router.push({ name: "addTest", query: { id: v.key } });
     },
 
     revampActivities(v) {
@@ -457,12 +459,24 @@ export default {
         v.states = "已下线";
         v.operation.type = "1";
         v.operation.state = "上线";
+        const gettotalData = JSON.parse(localStorage.getItem("totalData"));
+        const filterArr = gettotalData.filter((item) => item.key == v.key);
+        filterArr[0].states = v.states;
+        filterArr[0].operation.type = v.operation.type;
+        filterArr[0].operation.state = v.operation.state;
+        localStorage.setItem("totalData", JSON.stringify(gettotalData));
       } else {
         console.log(v, "hhhhhhhhhhhhhh");
         v.states = "已上线";
         v.operation.type = "2";
         v.operation.state = "下线";
       }
+      const gettotalData = JSON.parse(localStorage.getItem("totalData"));
+      const filterArr = gettotalData.filter((item) => item.key == v.key);
+      filterArr[0].states = v.states;
+      filterArr[0].operation.type = v.operation.type;
+      filterArr[0].operation.state = v.operation.state;
+      localStorage.setItem("totalData", JSON.stringify(gettotalData));
     },
     delRowBtn(v) {
       this.tableData = this.tableData.filter((item) => item.key != v);
