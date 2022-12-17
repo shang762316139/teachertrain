@@ -361,41 +361,36 @@ export default {
 
     totalBtn() {
       console.log(this.saveQuestionForm, "this.saveQuestionForm");
-
+      // 随机整数1-1000
+      const num = Math.ceil(Math.random() * 1000);
       const setQuestions = JSON.parse(localStorage.getItem("setQuestions"));
-
       if (setQuestions) {
-        console.log(setQuestions.length, "setQuestions.length111");
-        console.log(setQuestions, "setQuestions111");
-
-        if (setQuestions.length + 1 < 10) {
-          // setQuestions.forEach((item) => {
-          //   console.log(item.testId, "item.testId");
-          //   if (item.testId == "00" + (setQuestions.length + 1)) {
-          //     this.saveQuestionForm.testId = "00" + (setQuestions.length + 2);
-          //   } else {
-          //     this.saveQuestionForm.testId = "00" + (setQuestions.length + 1);
-          //   }
-          // });
-          this.saveQuestionForm.testId = "00" + (setQuestions.length + 1);
-        } else if (
-          setQuestions.length + 1 > 9 &&
-          setQuestions.length + 1 < 100
-        ) {
-          this.saveQuestionForm.testId = "0" + (setQuestions.length + 1);
+        if (num < 10) {
+          this.saveQuestionForm.testId = "00" + num;
+        } else if (num > 9 && num < 100) {
+          this.saveQuestionForm.testId = "0" + num;
         } else {
-          this.saveQuestionForm.testId = setQuestions.length;
+          this.saveQuestionForm.testId = num;
         }
         this.saveQuestionForm.creationTime = this.getDate();
         setQuestions.push(this.saveQuestionForm);
         localStorage.setItem("setQuestions", JSON.stringify(setQuestions));
       } else {
         const setQuestions = [];
-        this.saveQuestionForm.testId = "001";
+        // this.saveQuestionForm.testId = "001";
+        // this.saveQuestionForm.creationTime = this.getDate();
+        // setQuestions.push(this.saveQuestionForm);
+        // localStorage.setItem("setQuestions", JSON.stringify(setQuestions));
+        if (num < 10) {
+          this.saveQuestionForm.testId = "00" + num;
+        } else if (num > 9 && num < 100) {
+          this.saveQuestionForm.testId = "0" + num;
+        } else {
+          this.saveQuestionForm.testId = num;
+        }
         this.saveQuestionForm.creationTime = this.getDate();
         setQuestions.push(this.saveQuestionForm);
         localStorage.setItem("setQuestions", JSON.stringify(setQuestions));
-        // console.log(setQuestions.length, "setQuestions.length111");
       }
       this.$router.push({ name: "TestManagement" });
     },
