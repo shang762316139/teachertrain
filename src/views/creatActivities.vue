@@ -188,6 +188,8 @@ export default {
       // console.log(v, "vname");
       // this.ActivitiesForm.name = "";
       this.ActivitiesData.activeTitle = v;
+      this.ActivitiesData.userExamScore = ""; //用户答题得分
+      this.ActivitiesData.userExamTime = ""; //用户答题时长
       console.log(this.ActivitiesData.activeTitle, "this.ActivitiesData.name");
     },
     changeStartTime(v) {
@@ -249,6 +251,8 @@ export default {
         } else {
           const num = getData.length + 1;
           if (num < 10) {
+            this.ActivitiesData.userExamScore = ""; //用户答题得分
+            this.ActivitiesData.userExamTime = ""; //用户答题时长
             this.ActivitiesData.key = "00" + num;
           } else if (num > 9 && num < 100) {
             this.ActivitiesData.key = "0" + num;
@@ -267,6 +271,7 @@ export default {
       } else {
         this.ActivitiesData.key = "001";
         this.ActivitiesData.type = "01";
+
         totaldata.push(this.ActivitiesData);
         localStorage.setItem("totalData", JSON.stringify(totaldata));
       }

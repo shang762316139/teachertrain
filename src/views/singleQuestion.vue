@@ -389,6 +389,8 @@ export default {
           this.saveQuestionForm.testId = num;
         }
         this.saveQuestionForm.creationTime = this.getDate();
+        this.saveQuestionForm.userAnswer = ""; //用户答案
+        this.saveQuestionForm.usercorrect = ""; //正确0，错误1
         setQuestions.push(this.saveQuestionForm);
         localStorage.setItem("setQuestions", JSON.stringify(setQuestions));
       }

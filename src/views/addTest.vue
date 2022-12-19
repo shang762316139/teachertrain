@@ -229,9 +229,17 @@
             <span>提示: 用户答题成绩大于等于设置的成绩则视为通过</span>
           </el-form-item>
           <el-form-item label="是否允许重复作答 :" required>
-            <el-radio v-model="setAnswerForm.radio" label="1">否</el-radio>
-            <el-radio v-model="setAnswerForm.radio" label="2">是</el-radio>
-            <span>提示: 重复作答将取最优成绩作为最终成绩</span>
+            <el-radio-group
+              v-model="setAnswerForm.radio"
+              v-for="item in this.setAnswerForm.radioAnswer"
+              :key="item.type"
+              @change="radioAnswerChange"
+            >
+              <el-radio :label="item.type">{{ item.title }}</el-radio>
+              <span v-show="item.type == '2'"
+                >提示: 重复作答将取最优成绩作为最终成绩</span
+              >
+            </el-radio-group>
           </el-form-item>
           <el-form-item class="last-el-form-item">
             <el-button>取消</el-button>
@@ -288,7 +296,15 @@ export default {
         score: "1",
       },
       //设置答题方式form表单
-      setAnswerForm: { times: "", radio: "2", score: "" },
+      setAnswerForm: {
+        times: "",
+        radio: "2",
+        score: "",
+        radioAnswer: [
+          { type: "1", title: "否" },
+          { type: "2", title: "是" },
+        ],
+      },
       setAnswerRules: {
         times: [{ required: true }],
       },
@@ -578,6 +594,14 @@ export default {
     scoreChange(v) {
       this.setItemData.score = v;
     },
+    radioAnswerChange(v) {
+      console.log(v, "radioAnswerChange");
+      if (v == "1") {
+        return "否";
+      } else {
+        return "是";
+      }
+    },
     fulfillHand() {
       if (this.isAddshow) {
         this.$message({
@@ -594,6 +618,16 @@ export default {
         this.setItemData.addStestData = this.addtableData;
         //添加一个总分属性
         this.setItemData.totalScore = this.totalScore;
+        //添加一个是否重复作答
+        this.setItemData.radioAnswer = this.setAnswerForm.radio;
+        //用户是否作答
+        this.setItemData.userAnswerStat =
+          this.setAnswerForm.radio % 2 == 0 ? "1" : "0 ";
+        //答对题目数量
+        this.setItemData.rightNum = "";
+        //答错题目数量
+        this.setItemData.WorngNum = "";
+
         filterArr[0].getAddTest = this.setItemData;
         console.log(filterArr, "aa-aa");
         localStorage.setItem("totalData", JSON.stringify(gettableData));
